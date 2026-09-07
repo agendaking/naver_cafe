@@ -1,0 +1,647 @@
+brands:
+  kumho:
+    label: 금호타이어
+    official_account: null
+    groups:
+    - board_group: SUV타이어 크루젠GTPro
+      board_group_short: CRUGEN GT Pro
+      cafes:
+      - car_model: 카니발KA4
+        name: 카니발 포에버
+        url: https://cafe.naver.com/ArticleList.nhn?search.clubid=10124067&search.menuid=3278&search.boardtype=L
+        member_count: 699138
+      - car_model: 쏘렌토MQ4
+        name: 쏘렌토 멤버스
+        url: https://cafe.naver.com/f-e/cafes/10037204/menus/3077?viewType=L
+        member_count: 912086
+      - car_model: 싼타페TM
+        name: 클럽 싼타페
+        url: https://cafe.naver.com/f-e/cafes/20179506/menus/3455?viewType=L
+        member_count: 815301
+      - car_model: 올뉴쏘렌토
+        name: 쏘랜토 패밀리
+        url: https://cafe.naver.com/f-e/cafes/12006155/menus/2450?viewType=L
+        member_count: 383769
+      - car_model: BMW X
+        name: BMW X 매니아
+        url: https://cafe.naver.com/f-e/cafes/18387230/menus/1378?viewType=L
+        member_count: 307063
+      - car_model: 팰리세이드
+        name: 클럽 팰리세이드
+        url: https://cafe.naver.com/f-e/cafes/11375793/menus/2606?viewType=L
+        member_count: 557470
+      - car_model: 싼타페MX5
+        name: 싼타페 MX5 패밀리
+        url: https://cafe.naver.com/f-e/cafes/10633813/menus/1936?viewType=L
+        member_count: 378977
+      - car_model: 올뉴카니발
+        name: 카니발 패밀리
+        url: https://cafe.naver.com/f-e/cafes/11851860/menus/2144?viewType=L
+        member_count: 390874
+      - car_model: QM6
+        name: QM6 매니아
+        url: https://cafe.naver.com/f-e/cafes/12203863/menus/1437?viewType=L
+        member_count: 341232
+      - car_model: 스포티지NQ5
+        name: 스포티지 매니아
+        url: https://cafe.naver.com/f-e/cafes/11543913/menus/1868?viewType=L
+        member_count: 383590
+      - car_model: 싼타페DM
+        name: 클럽 DM
+        url: https://cafe.naver.com/f-e/cafes/21395223/menus/1294?viewType=L
+        member_count: 282121
+      - car_model: 투싼NX4
+        name: 클럽 투싼
+        url: https://cafe.naver.com/f-e/cafes/13035156/menus/1936?viewType=L
+        member_count: 241986
+      - car_model: 더뉴카니발
+        name: 카포페
+        url: https://cafe.naver.com/f-e/cafes/24651578/menus/1279?viewType=L
+        member_count: 209045
+      - car_model: 토레스
+        name: 토레스 매니아
+        url: https://cafe.naver.com/f-e/cafes/15103899/menus/2099?viewType=L
+        member_count: 206172
+      - car_model: 티볼리
+        name: 티볼리 클럽
+        url: https://cafe.naver.com/f-e/cafes/13515778/menus/1146?viewType=L
+        member_count: 198084
+      - car_model: 렉스턴스포츠
+        name: 클럽 Q200
+        url: https://cafe.naver.com/f-e/cafes/23864027/menus/1340?viewType=L
+        member_count: 168839
+      - car_model: 모하비더마스터
+        name: 모하비더마스터 클럽
+        url: https://cafe.naver.com/f-e/cafes/20586673/menus/1686?viewType=L
+        member_count: 140505
+      - car_model: LX3 팰리세이드
+        name: 팰리세이드 피플
+        url: https://cafe.naver.com/f-e/cafes/16624720/menus/2117?viewType=L
+        member_count: 291253
+      - car_model: 그랑콜레오스
+        name: 그랑콜레오레스 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/10007862/menus/2353?viewType=L
+        member_count: 260334
+    - board_group: 대한민국 대표 금호타이어
+      board_group_short: 금호타이어
+      cafes:
+      - car_model: 필랑트
+        name: 필랑트 오너스 클럽
+        url: https://cafe.naver.com/f-e/cafes/15092282/menus/1447?viewType=L
+        member_count: 115421
+      - car_model: 쏘나타DN8
+        name: 쏘나타 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/12263355/menus/1498?viewType=L
+        member_count: 537292
+      - car_model: K8
+        name: K8 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/11672934/menus/989?viewType=L
+        member_count: 520860
+      - car_model: BMW
+        name: BMW 매니아
+        url: https://cafe.naver.com/ArticleList.nhn?search.clubid=18736796&search.menuid=1999&search.boardtype=L
+        member_count: 786879
+      - car_model: 제네시스G80
+        name: 위너클래스 G80
+        url: https://cafe.naver.com/f-e/cafes/10424526/menus/1379?viewType=L
+        member_count: 308684
+      - car_model: 제네시스GV70
+        name: GV70 포럼
+        url: https://cafe.naver.com/f-e/cafes/10947985/menus/1367?viewType=L
+        member_count: 225975
+      - car_model: 그랜저HGIG
+        name: 그랜저 패밀리
+        url: https://cafe.naver.com/f-e/cafes/14131753/menus/1271?viewType=L
+        member_count: 333234
+      - car_model: 제네시스GV80
+        name: GV80 멤버스
+        url: https://cafe.naver.com/f-e/cafes/12025661/menus/3247?viewType=L
+        member_count: 443700
+      - car_model: 그랜저IG
+        name: 그랜저 멤버스
+        url: https://cafe.naver.com/f-e/cafes/10108966/menus/2561?viewType=L
+        member_count: 530896
+      - car_model: 그랜저GN7
+        name: 그랜저 리더스 클럽
+        url: https://cafe.naver.com/f-e/cafes/14849235/menus/2620?viewType=L
+        member_count: 449651
+      - car_model: 볼보
+        name: 클럽 볼보
+        url: https://cafe.naver.com/f-e/cafes/21377412/menus/1251?viewType=L
+        member_count: 240028
+      - car_model: 아우디
+        name: 아우디 매니아
+        url: https://cafe.naver.com/f-e/cafes/14060983/menus/960?viewType=L
+        member_count: 339396
+      - car_model: 벤츠
+        name: 클럽 벤츠
+        url: https://cafe.naver.com/f-e/cafes/13248507/menus/820?viewType=L
+        member_count: 563560
+      - car_model: 제네사스G70
+        name: 제니시스 G70 클럽
+        url: https://cafe.naver.com/f-e/cafes/10221577/menus/729?viewType=L
+        member_count: 169817
+      - car_model: 제네시스클럽
+        name: 제네시스클럽
+        url: https://cafe.naver.com/f-e/cafes/25538910/menus/1007?viewType=L
+        member_count: 387034
+      - car_model: 토요타
+        name: 토요타클럽
+        url: https://cafe.naver.com/f-e/cafes/20664815/menus/1260?viewType=L
+        member_count: 135615
+      - car_model: 코나
+        name: 패밀리 코나
+        url: https://cafe.naver.com/f-e/cafes/10285261/menus/1389?viewType=L
+        member_count: 283816
+      - car_model: 크루즈
+        name: 클럽 크루즈
+        url: https://cafe.naver.com/f-e/cafes/16854688/menus/880?viewType=L
+        member_count: 256236
+      - car_model: 올뉴K3
+        name: 올뉴K3 패밀리
+        url: https://cafe.naver.com/f-e/cafes/11921054/menus/2005?viewType=L
+        member_count: 213590
+      - car_model: 스팅어
+        name: 스팅어 매니아
+        url: https://cafe.naver.com/f-e/cafes/19653347/menus/1264?viewType=L
+        member_count: 118800
+      - car_model: 미니
+        name: 아이러브미니
+        url: https://cafe.naver.com/f-e/cafes/13071593/menus/407?viewType=L
+        member_count: 239016
+      - car_model: 폭스바겐
+        name: 폭스바겐 골프 클럽
+        url: https://cafe.naver.com/f-e/cafes/20465640/menus/810?viewType=L
+        member_count: 130403
+      - car_model: 아이오닉
+        name: 아이오닉멤버스
+        url: https://cafe.naver.com/ArticleList.nhn?search.clubid=16598058&search.menuid=1679&search.boardtype=L
+        member_count: 277228
+      - car_model: 아이오닉9
+        name: 아이오닉9 클럽
+        url: https://cafe.naver.com/f-e/cafes/23756663/menus/785?viewType=L
+        member_count: 56877
+      - car_model: 기아EV통합
+        name: EV 오너스 클럽
+        url: https://cafe.naver.com/f-e/cafes/11315238/menus/2510?viewType=L
+        member_count: 228255
+      - car_model: EV9
+        name: EV9 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/20255247/menus/2169?viewType=L
+        member_count: 151244
+      - car_model: EV3
+        name: EV3 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/16069074/menus/923?viewType=L
+        member_count: 134486
+      - car_model: 테슬라
+        name: 테슬라 코리아 클럽
+        url: https://cafe.naver.com/f-e/cafes/26681849/menus/1195?viewType=L
+        member_count: 348885
+      - car_model: 전기차
+        name: 전기차동호회
+        url: https://cafe.naver.com/f-e/cafes/21771803/menus/964?viewType=L
+        member_count: 1512272
+      - car_model: 캐스퍼EV
+        name: 캐스퍼 일렉트릭 클럽
+        url: https://cafe.naver.com/f-e/cafes/10918007/menus/1024
+        member_count: 116931
+      - car_model: BYD
+        name: BYD 오너스
+        url: https://cafe.naver.com/f-e/cafes/14924776/menus/2822
+        member_count: 236282
+      - car_model: 폴스타
+        name: 폴스타 클루즈
+        url: https://cafe.naver.com/f-e/cafes/24182692/menus/374?viewType=L
+        member_count: 47032
+      - car_model: K5 DL3
+        name: K5 멤버스
+        url: https://cafe.naver.com/f-e/cafes/10062125/menus/3152?viewType=L
+        member_count: 656812
+      - car_model: 아반떼CN7
+        name: 올뉴아반떼 매니아
+        url: https://cafe.naver.com/f-e/cafes/17638944/menus/2332?viewType=L
+        member_count: 349083
+      - car_model: 아반떼
+        name: 아반떼AD 공식 동호회
+        url: https://cafe.naver.com/f-e/cafes/10098237/menus/2498?viewType=L
+        member_count: 327591
+      - car_model: 셀토스
+        name: 셀토스 클럽
+        url: https://cafe.naver.com/f-e/cafes/11010385/menus/2132?viewType=L
+        member_count: 337169
+      - car_model: LF쏘나타
+        name: LF쏘나타러브
+        url: https://cafe.naver.com/f-e/cafes/10395791/menus/2140?viewType=L
+        member_count: 281042
+      - car_model: 올뉴K7
+        name: K7 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/12589355/menus/1627?viewType=L
+        member_count: 275505
+      - car_model: SM6탈리스만
+        name: SM6 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/15925001/menus/2152?viewType=L
+        member_count: 255681
+      - car_model: 베뉴
+        name: 클럽 베뉴
+        url: https://cafe.naver.com/f-e/cafes/12612567/menus/1101?viewType=L
+        member_count: 212796
+      - car_model: XM3
+        name: XM3 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/21807328/menus/1497?viewType=L
+        member_count: 215117
+      - car_model: LFYF쏘나타
+        name: 쏘나타클럽 W.S.D
+        url: https://cafe.naver.com/f-e/cafes/17840799/menus/1188?viewType=L
+        member_count: 158457
+      - car_model: AX1캐스퍼
+        name: AX1 캐스퍼 매니아
+        url: https://cafe.naver.com/f-e/cafes/25287782/menus/1876?viewType=L
+        member_count: 193862
+      - car_model: 더뉴K7
+        name: K7 매니아 클럽
+        url: https://cafe.naver.com/f-e/cafes/18454521/menus/1007?viewType=L
+        member_count: 104500
+      - car_model: SM5
+        name: SM5 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/25389895/menus/1196?viewType=L
+        member_count: 104534
+      - car_model: 스타리아
+        name: 스타리아 패밀리
+        url: https://cafe.naver.com/f-e/cafes/19671270/menus/1639?viewType=L
+        member_count: 113615
+      - car_model: SM3
+        name: SM3&SM4 클럽
+        url: https://cafe.naver.com/f-e/cafes/17222508/menus/824?viewType=L
+        member_count: 554122
+      - car_model: i40
+        name: i40 클럽
+        url: https://cafe.naver.com/f-e/cafes/22067380/menus/1076?viewType=L
+        member_count: 363085
+      - car_model: 현대N
+        name: 크루N
+        url: https://cafe.naver.com/f-e/cafes/11991578/menus/740?viewType=L
+        member_count: 70346
+      - car_model: 셀토스
+        name: 셀토스러브
+        url: https://cafe.naver.com/f-e/cafes/10095818/menus/1586?viewType=L
+        member_count: 207261
+      - car_model: 화물/트럭
+        name: 영운모
+        url: https://cafe.naver.com/f-e/cafes/19984812/menus/274?viewType=L
+        member_count: 142461
+  hankook:
+    label: 한국타이어
+    official_account: 한국타이어T매니저
+    groups:
+    - board_group: 대한민국1등 한국타이어
+      board_group_short: null
+      cafes:
+      - car_model: K8
+        name: K8 오너스 클럽
+        url: https://cafe.naver.com/f-e/cafes/11672934/menus/873?viewType=L
+        member_count: 529675
+      - car_model: BMW
+        name: BMW 매니아
+        url: https://cafe.naver.com/f-e/cafes/18736796/menus/1760
+        member_count: 682736
+      - car_model: 제네시스G80
+        name: 위너클래스 G80
+        url: https://cafe.naver.com/f-e/cafes/10424526/menus/1249?viewType=L
+        member_count: 292577
+      - car_model: 벤츠
+        name: 클럽 벤츠
+        url: https://cafe.naver.com/f-e/cafes/13248507/menus/782?viewType=L
+        member_count: 542308
+      - car_model: 화물/트럭
+        name: 영운모
+        url: https://cafe.naver.com/f-e/cafes/19984812/menus/268?viewType=L
+        member_count: 131951
+      - car_model: 그랜저IG
+        name: 그랜저 멤버스
+        url: cafe.naver.com/bestcm
+        member_count: 531434
+      - car_model: 그랜저GN7
+        name: 그랜저 리더스 클럽
+        url: cafe.naver.com/suddenattackskincafe
+        member_count: 450347
+      - car_model: 볼보
+        name: 클럽 볼보
+        url: HTTPS://cafe.naver.com/cksdn8443
+        member_count: 202915
+      - car_model: K5 DL3
+        name: K5 멤버스
+        url: cafe.naver.com/pantagi
+        member_count: 658357
+      - car_model: 쏘나타DN8
+        name: 쏘나타 오너스클럽
+        url: cafe.naver.com/hyun6587
+        member_count: 529608
+      - car_model: QM6
+        name: QM6 매니아
+        url: cafe.naver.com/usemaprank
+        member_count: 338051
+      - car_model: 아반떼
+        name: 아반떼AD 공식 동호회
+        url: cafe.naver.com/cafegba
+        member_count: 329993
+      - car_model: LF쏘나타
+        name: LF쏘나타러브
+        url: cafe.naver.com/xxyxx
+        member_count: 276755
+      - car_model: 올뉴K7
+        name: K7 오너스클럽
+        url: cafe.naver.com/stars0
+        member_count: 273025
+    - board_group: SUV전용타이어 DYNAPRO
+      board_group_short: null
+      cafes:
+      - car_model: 쏘렌토MQ4
+        name: 쏘렌토 멤버스
+        url: https://cafe.naver.com/f-e/cafes/10037204/menus/2905?viewType=L
+        member_count: 878578
+      - car_model: 스포티지NQ5
+        name: 스포티지 매니아
+        url: https://cafe.naver.com/f-e/cafes/11543913/menus/1757?viewType=L
+        member_count: 323749
+      - car_model: 그랑콜레오스
+        name: 그랑콜레오레스 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/10007862/menus/2491?viewType=L
+        member_count: 228614
+      - car_model: 카니발KA4
+        name: 카니발 포에버
+        url: https://cafe.naver.com/ArticleList.nhn?search.clubid=10124067&search.menuid=3278&search.boardtype=L
+        member_count: 655691
+      - car_model: 싼타페TM
+        name: 클럽 싼타페
+        url: cafe.naver.com/iroid
+        member_count: 785605
+      - car_model: 제네시스GV70
+        name: GV70 포럼
+        url: cafe.naver.com/ohwow
+        member_count: 191123
+      - car_model: 올뉴쏘렌토
+        name: 쏘랜토 패밀리
+        url: cafe.naver.com/wnd1tkghl
+        member_count: 378347
+      - car_model: 팰리세이드
+        name: 클럽 팰리세이드
+        url: cafe.naver.com/naworl
+        member_count: 532576
+      - car_model: 올뉴카니발
+        name: 카니발 패밀리
+        url: cafe.naver.com/haruhi
+        member_count: 357543
+      - car_model: 싼타페DM
+        name: 클럽 DM
+        url: cafe.naver.com/santafedmclub
+        member_count: 280204
+      - car_model: 올뉴투싼
+        name: 투싼 매니아
+        url: cafe.naver.com/shiftouch
+        member_count: 263587
+    - board_group: 전기차전용 타이어 iON
+      board_group_short: null
+      cafes:
+      - car_model: 아이오닉
+        name: 아이오닉 멤버스
+        url: https://cafe.naver.com/f-e/cafes/16598058/menus/1486
+        member_count: 260754
+      - car_model: 테슬라
+        name: 테슬라 코리아 클럽
+        url: https://cafe.naver.com/f-e/cafes/26681849/menus/1015?viewType=L
+        member_count: 203039
+      - car_model: 전기차
+        name: 전기차동호회
+        url: https://cafe.naver.com/f-e/cafes/21771803/menus/965?viewType=L
+        member_count: 1248578
+      - car_model: 기아EV통합
+        name: EV 오너스 클럽
+        url: cafe.naver.com/carmessenger
+        member_count: 211948
+      - car_model: EV9
+        name: EV9 오너스클럽
+        url: https://cafe.naver.com/terror4u
+        member_count: 147264
+  nexen:
+    label: 넥센타이어
+    official_account: null
+    groups:
+    - board_group: 넥센타이어
+      board_group_short: null
+      cafes:
+      - car_model: 카니발KA4
+        name: 카니발 포에버
+        url: https://cafe.naver.com/f-e/cafes/10124067/menus/2270?viewType=L
+        member_count: null
+      - car_model: K8
+        name: K8 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/11672934/menus/551?viewType=L
+        member_count: null
+      - car_model: BMW
+        name: BMW 매니아
+        url: https://cafe.naver.com/f-e/cafes/18736796/menus/1374?viewType=L
+        member_count: null
+      - car_model: 제네시스G80
+        name: 위너클래스 G80
+        url: https://cafe.naver.com/f-e/cafes/10424526/menus/913?viewType=L
+        member_count: null
+      - car_model: 쏘렌토MQ4
+        name: 쏘렌토 멤버스
+        url: https://cafe.naver.com/f-e/cafes/10037204/menus/2443?viewType=L
+        member_count: null
+      - car_model: 그랜저HGIG
+        name: 그랜저 패밀리
+        url: https://cafe.naver.com/f-e/cafes/14131753/menus/905?t=1757995558989
+        member_count: null
+      - car_model: 제네시스GV80
+        name: GV80 멤버스
+        url: https://cafe.naver.com/f-e/cafes/12025661/menus/2732?viewType=L
+        member_count: null
+      - car_model: 싼타페TM
+        name: 클럽 싼타페
+        url: https://cafe.naver.com/f-e/cafes/20179506/menus/3026?viewType=L
+        member_count: null
+      - car_model: 그랜저IG
+        name: 그랜저 멤버스
+        url: https://cafe.naver.com/f-e/cafes/10108966/menus/2099?viewType=L
+        member_count: null
+      - car_model: 제네시스GV70
+        name: GV70 포럼
+        url: https://cafe.naver.com/f-e/cafes/10947985/menus/994?viewType=L
+        member_count: null
+      - car_model: 그랜저GN7
+        name: 그랜저 리더스 클럽
+        url: https://cafe.naver.com/f-e/cafes/14849235/menus/2377?viewType=L
+        member_count: null
+      - car_model: 올뉴쏘렌토
+        name: 쏘랜토 패밀리
+        url: https://cafe.naver.com/f-e/cafes/12006155/menus/2068?viewType=L
+        member_count: null
+      - car_model: 팰리세이드
+        name: 클럽 팰리세이드
+        url: https://cafe.naver.com/f-e/cafes/11375793/menus/1994?viewType=L
+        member_count: null
+      - car_model: 볼보
+        name: 클럽 볼보
+        url: https://cafe.naver.com/f-e/cafes/21377412/menus/854?viewType=L
+        member_count: null
+      - car_model: 아이오닉
+        name: 아이오닉 멤버스
+        url: https://cafe.naver.com/f-e/cafes/16598058/menus/1279
+        member_count: null
+      - car_model: 기아EV통합
+        name: EV 오너스 클럽
+        url: https://cafe.naver.com/f-e/cafes/11315238/menus/2145?viewType=L
+        member_count: null
+      - car_model: EV9
+        name: EV9 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/20255247/menus/2055?viewType=L
+        member_count: null
+      - car_model: EV3
+        name: EV3 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/16069074/menus/958?viewType=L
+        member_count: null
+      - car_model: K5 DL3
+        name: K5 멤버스
+        url: https://cafe.naver.com/f-e/cafes/10062125/menus/2720?viewType=L
+        member_count: null
+      - car_model: 쏘나타DN8
+        name: 쏘나타 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/12263355/menus/1132?viewType=L
+        member_count: null
+      - car_model: 싼타페MX5
+        name: 싼타페 MX5 패밀리
+        url: https://cafe.naver.com/f-e/cafes/10633813/menus/1850?viewType=L
+        member_count: null
+      - car_model: 올뉴카니발
+        name: 카니발 패밀리
+        url: https://cafe.naver.com/f-e/cafes/11851860/menus/1627?viewType=L
+        member_count: null
+      - car_model: QM6
+        name: QM6 매니아
+        url: https://cafe.naver.com/f-e/cafes/12203863/menus/1069?viewType=L
+        member_count: null
+      - car_model: 아반떼CN7
+        name: 올뉴아반떼 매니아
+        url: https://cafe.naver.com/f-e/cafes/17638944/menus/1905?viewType=L
+        member_count: null
+      - car_model: 아반떼
+        name: 아반떼AD 공식 동호회
+        url: https://cafe.naver.com/f-e/cafes/10098237/menus/2136?viewType=L
+        member_count: null
+      - car_model: 스포티지NQ5
+        name: 스포티지 매니아
+        url: https://cafe.naver.com/f-e/cafes/11543913/menus/1443?viewType=L
+        member_count: null
+      - car_model: 셀토스
+        name: 셀토스  클럽
+        url: https://cafe.naver.com/f-e/cafes/11010385/menus/1747?viewType=L
+        member_count: null
+      - car_model: 싼타페DM
+        name: 클럽 DM
+        url: https://cafe.naver.com/f-e/cafes/21395223/menus/884?viewType=L
+        member_count: null
+      - car_model: LF쏘나타
+        name: LF쏘나타러브
+        url: https://cafe.naver.com/f-e/cafes/10395791/menus/1775?viewType=L
+        member_count: null
+      - car_model: 코나
+        name: 패밀리 코나
+        url: https://cafe.naver.com/f-e/cafes/10285261/menus/1285?viewType=L
+        member_count: null
+      - car_model: 올뉴K7
+        name: K7 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/12589355/menus/1243?viewType=L
+        member_count: null
+      - car_model: 올뉴투싼
+        name: 투싼 매니아
+        url: https://cafe.naver.com/f-e/cafes/11639768/menus/1341?viewType=L
+        member_count: null
+      - car_model: 크루즈
+        name: 클럽 크루즈
+        url: https://cafe.naver.com/f-e/cafes/16854688/menus/496?viewType=L
+        member_count: null
+      - car_model: SM6탈리스만
+        name: SM6 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/15925001/menus/1795?viewType=L
+        member_count: null
+      - car_model: 베뉴
+        name: 클럽 베뉴
+        url: https://cafe.naver.com/f-e/cafes/12612567/menus/767?viewType=L
+        member_count: null
+      - car_model: XM3
+        name: XM3 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/21807328/menus/1147?viewType=L
+        member_count: null
+      - car_model: 올뉴K3
+        name: 올뉴K3 패밀리
+        url: https://cafe.naver.com/f-e/cafes/11921054/menus/1648?viewType=L
+        member_count: null
+      - car_model: 투싼NX4
+        name: 클럽 투싼
+        url: https://cafe.naver.com/f-e/cafes/13035156/menus/1446?viewType=L
+        member_count: null
+      - car_model: 아반떼CN7
+        name: 아반떼 팀 No.1
+        url: https://cafe.naver.com/f-e/cafes/19197661/menus/687?viewType=L
+        member_count: null
+      - car_model: 더뉴카니발
+        name: 카포페
+        url: https://cafe.naver.com/f-e/cafes/24651578/menus/1094?viewType=L
+        member_count: null
+      - car_model: 토레스
+        name: 토레스 매니아
+        url: https://cafe.naver.com/f-e/cafes/15103899/menus/1865?viewType=L
+        member_count: null
+      - car_model: 티볼리
+        name: 티볼리 클럽
+        url: https://cafe.naver.com/f-e/cafes/13515778/menus/818?viewType=L
+        member_count: null
+      - car_model: 렉스턴스포츠
+        name: 클럽 Q200
+        url: https://cafe.naver.com/f-e/cafes/23864027/menus/946?viewType=L
+        member_count: null
+      - car_model: LFYF쏘나타
+        name: 쏘나타클럽 W.S.D
+        url: https://cafe.naver.com/f-e/cafes/17840799/menus/867?viewType=L
+        member_count: null
+      - car_model: AX1캐스퍼
+        name: AX1 캐스퍼 매니아
+        url: https://cafe.naver.com/f-e/cafes/25287782/menus/1576?viewType=L
+        member_count: null
+      - car_model: 모하비더마스터
+        name: 모하비더마스터 클럽
+        url: https://cafe.naver.com/f-e/cafes/20586673/menus/1304?viewType=L
+        member_count: null
+      - car_model: 스팅어
+        name: 스팅어 매니아
+        url: https://cafe.naver.com/f-e/cafes/19653347/menus/889?viewType=L
+        member_count: null
+      - car_model: 더뉴K7
+        name: K7 매니아 클럽
+        url: https://cafe.naver.com/f-e/cafes/18454521/menus/697?viewType=L
+        member_count: null
+      - car_model: SM5
+        name: SM5 오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/25389895/menus/886?viewType=L
+        member_count: null
+      - car_model: 스타리아
+        name: 스타리아 패밀리
+        url: https://cafe.naver.com/f-e/cafes/19671270/menus/1338?viewType=L
+        member_count: null
+      - car_model: SM3
+        name: SM3&SM4 클럽
+        url: https://cafe.naver.com/f-e/cafes/17222508/menus/524?viewType=L
+        member_count: null
+      - car_model: 팰리세이드 LX3
+        name: 팰리세이드 피플
+        url: https://cafe.naver.com/f-e/cafes/16624720/menus/2116?viewType=L
+        member_count: null
+      - car_model: i40
+        name: i40 클럽
+        url: https://cafe.naver.com/f-e/cafes/22067380/menus/769?viewType=L
+        member_count: null
+      - car_model: 콜레오스
+        name: 그랑콜레오스오너스클럽
+        url: https://cafe.naver.com/f-e/cafes/10007862/menus/2360?viewType=L
+        member_count: null
