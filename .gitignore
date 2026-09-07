@@ -1,0 +1,27 @@
+# secrets / credentials
+.env
+.env.*
+*.cookies.json
+config/secrets.yaml
+
+# data outputs (재생성 가능, 크지도 않게 유지)
+*.xlsx
+*.xls
+output/
+*.log
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# playwright
+playwright-report/
+test-results/
+
+# os
+.DS_Store
+Thumbs.db
