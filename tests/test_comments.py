@@ -10,7 +10,13 @@ from __future__ import annotations
 import openpyxl
 import pytest
 
-from naver_cafe_crawler.comments import COMMENT_HEADER, CommentRecord, write_comment_sheet
+from naver_cafe_crawler.comments import (
+    COMMENT_HEADER,
+    FIRST_DATA_ROW,
+    HEADER_ROW,
+    CommentRecord,
+    write_comment_sheet,
+)
 from naver_cafe_crawler.crawl import (
     fetch_cafe_articles_and_comments_for_month,
     fetch_comments_for_article,
@@ -37,15 +43,15 @@ def sheet(tmp_path):
 
 
 def test_comment_header_matches_prd_order(sheet):
-    header = [sheet.cell(1, c).value for c in range(1, 1 + len(COMMENT_HEADER))]
+    header = [sheet.cell(HEADER_ROW, c).value for c in range(1, 1 + len(COMMENT_HEADER))]
     assert header == COMMENT_HEADER
 
 
 def test_comment_rows_written(sheet):
-    assert sheet.cell(2, 1).value == "금호"
-    assert sheet.cell(2, 2).value == "카니발 포에버"
-    assert sheet.cell(2, 6).value == "오! 좋네요"
-    assert sheet.cell(3, 6).value == "참여합니다"
+    assert sheet.cell(FIRST_DATA_ROW, 1).value == "금호"
+    assert sheet.cell(FIRST_DATA_ROW, 2).value == "카니발 포에버"
+    assert sheet.cell(FIRST_DATA_ROW, 6).value == "오! 좋네요"
+    assert sheet.cell(FIRST_DATA_ROW + 1, 6).value == "참여합니다"
 
 
 # --- 동일 배치 수집 검증 ---

@@ -27,12 +27,26 @@ class CommentRecord:
     content: str
 
 
-def write_comment_sheet(ws: Worksheet, comments: list[CommentRecord]) -> None:
+HEADER_ROW = 4
+FIRST_DATA_ROW = 5
+
+
+def write_comment_sheet(ws: Worksheet, comments: list[CommentRecord], *, title: str | None = None) -> None:
+    """헤더는 4행, 데이터는 5행부터 시작한다.
+
+    kumho-monthly-ops-report 스킬이 실제로 이 위치를 기대한다는 걸 T-08
+    end-to-end 테스트에서 확인함 (references/data_sources.md: "header row
+    around row 4, data from row 5") — 원래 1행/2행에 쓰던 걸 여기 맞춰
+    고쳤다. 1~3행은 원본 아카이브 파일처럼 제목/설명용으로 비워둔다.
+    """
+    if title:
+        ws.cell(1, 1, title)
+
     for col_idx, label in enumerate(COMMENT_HEADER, start=1):
-        ws.cell(1, col_idx, label)
+        ws.cell(HEADER_ROW, col_idx, label)
 
     for row_offset, c in enumerate(comments):
-        r = 2 + row_offset
+        r = FIRST_DATA_ROW + row_offset
         ws.cell(r, 1, c.gubun)
         ws.cell(r, 2, c.cafe)
         ws.cell(r, 3, c.article_title)

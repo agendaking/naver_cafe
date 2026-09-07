@@ -18,6 +18,8 @@ from dataclasses import dataclass
 import openpyxl
 from openpyxl.workbook import Workbook
 
+from .comments import FIRST_DATA_ROW as FIRST_COMMENT_DATA_ROW
+
 BRAND_SHEETS = ["금호타이어", "한국타이어", "넥센타이어"]
 ROSTER_SHEETS = {"금호타이어": "금호", "한국타이어": "한국", "넥센타이어": "넥센"}
 GUBUN_BY_SHEET = {"금호타이어": "금호", "한국타이어": "한국", "넥센타이어": "넥센"}
@@ -87,7 +89,7 @@ def check_comment_counts_match(wb: Workbook) -> ValidationResult:
         return ValidationResult("댓글 시트 == 게시글 댓글 합계", False, "댓글 시트 없음")
     comment_ws = wb["댓글"]
     comment_rows = []
-    r = 2
+    r = FIRST_COMMENT_DATA_ROW
     while comment_ws.cell(r, 1).value is not None:
         comment_rows.append(comment_ws.cell(r, 1).value)
         r += 1
