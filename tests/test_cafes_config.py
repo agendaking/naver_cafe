@@ -81,7 +81,8 @@ def test_hankook_group_breakdown(rosters):
     assert counts == EXPECTED_HANKOOK_GROUP_COUNTS
 
 
-def test_hankook_official_account_recorded(rosters):
-    # T-03에서 실제 필터링 로직에 사용할 값. 카페 로스터 자체와는 무관하지만
-    # 브랜드 메타데이터로 지금 확정해둔다 (형님 확인: '한국타이어T매니저').
-    assert rosters["hankook"].official_account == "한국타이어T매니저"
+def test_official_accounts_recorded(rosters):
+    # T-03에서 실제 필터링 로직에 사용할 값 (형님 확인, 2026-09-07).
+    assert rosters["hankook"].official_accounts == ("한국타이어T매니저",)
+    assert rosters["nexen"].official_accounts == ("넥스트레벨", "타이어엔샵")
+    assert rosters["kumho"].official_accounts == ()

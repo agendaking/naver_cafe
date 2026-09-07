@@ -27,7 +27,7 @@ class CafeEntry:
 class BrandRoster:
     key: str
     label: str
-    official_account: str | None
+    official_accounts: tuple[str, ...]
     cafes: list[CafeEntry]
 
 
@@ -52,7 +52,7 @@ def load_cafes(path: str | Path) -> dict[str, BrandRoster]:
         rosters[brand_key] = BrandRoster(
             key=brand_key,
             label=brand_data["label"],
-            official_account=brand_data.get("official_account"),
+            official_accounts=tuple(brand_data.get("official_accounts") or []),
             cafes=cafes,
         )
     return rosters

@@ -99,6 +99,20 @@ def fetch_raw_articles_for_month(
     return results
 
 
+def filter_official_accounts(
+    raw_articles: Iterable[RawArticle], official_accounts: Iterable[str]
+) -> list[RawArticle]:
+    """작성자 닉네임이 공식 계정 화이트리스트에 있는 게시글만 남긴다 (T-03).
+
+    화이트리스트가 비어 있으면(예: 금호처럼 계정 필터링이 필요 없는 브랜드)
+    아무것도 거르지 않고 그대로 반환한다.
+    """
+    allowed = set(official_accounts)
+    if not allowed:
+        return list(raw_articles)
+    return [a for a in raw_articles if a.writer_nickname in allowed]
+
+
 def raw_to_article_records(
     raw_articles: Iterable[RawArticle], *, cafe_name: str, group: str
 ) -> list[ArticleRecord]:

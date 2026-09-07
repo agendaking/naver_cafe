@@ -1,7 +1,7 @@
 brands:
   kumho:
     label: 금호타이어
-    official_account: null
+    official_accounts: []
     groups:
     - board_group: SUV타이어 크루젠GTPro
       board_group_short: CRUGEN GT Pro
@@ -291,7 +291,8 @@ brands:
         member_count: 142461
   hankook:
     label: 한국타이어
-    official_account: 한국타이어T매니저
+    official_accounts:
+    - 한국타이어T매니저
     groups:
     - board_group: 대한민국1등 한국타이어
       board_group_short: null
@@ -348,7 +349,9 @@ brands:
         member_count: 1248578
   nexen:
     label: 넥센타이어
-    official_account: null
+    official_accounts:
+    - 넥스트레벨
+    - 타이어엔샵
     groups:
     - board_group: 넥센타이어
       board_group_short: null

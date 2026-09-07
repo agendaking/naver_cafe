@@ -11,10 +11,13 @@ menuId=3278)에서 로그인 없이 cafe-boardlist-api를 호출해 받은 응�
 from __future__ import annotations
 
 from naver_cafe_crawler.crawl import (
+    RawArticle,
     fetch_cafe_articles_for_month,
     fetch_raw_articles_for_month,
+    filter_official_accounts,
 )
 from naver_cafe_crawler.naver_api import parse_cafe_menu_ids
+from datetime import datetime
 
 
 def _article(timestamp_ms, subject, read=0, like=0, comment=0, nickname="타이어프로", level="협력업체"):
@@ -130,6 +133,52 @@ def test_pagination_stops_when_page_entirely_before_month():
     raw = fetch_raw_articles_for_month("1", "1", 2026, 8, fetch_page=fetch)
     assert len(raw) == 1
     assert calls == [1, 2]  # 2페이지까지 가서 7월 글을 만나고 멈춤
+
+
+def _raw(nickname: str, subject: str = "글") -> RawArticle:
+    return RawArticle(
+        write_datetime=datetime(2026, 8, 1),
+        subject=subject,
+        read_count=0,
+        like_count=0,
+        comment_count=0,
+        writer_nickname=nickname,
+        writer_member_level_name="협력업체",
+    )
+
+
+# 2026-08 실제 라이브 스캔 결과 축소판 (형님 확인, 2026-09-07):
+# 한국타이어는 'T매니저'만 공식, '파주매니저'와 랜덤 닉네임은 비공식.
+# 넥센타이어는 '넥스트레벨'과 '타이어엔샵'만 공식, 나머지 변형 계정은 비공식.
+def test_filter_official_accounts_hankook():
+    raw = [
+        _raw("한국타이어T매니저"),
+        _raw("한국타이어T매니저"),
+        _raw("한국타이어파주매니저"),
+        _raw("틴셔lev6gtl부산"),
+    ]
+    filtered = filter_official_accounts(raw, ["한국타이어T매니저"])
+    assert len(filtered) == 2
+    assert all(a.writer_nickname == "한국타이어T매니저" for a in filtered)
+
+
+def test_filter_official_accounts_nexen_multiple_allowed():
+    raw = [
+        _raw("넥스트레벨"),
+        _raw("타이어엔샵"),
+        _raw("전국G넥스트레벨"),
+        _raw("넥센ll넥스트레벨"),
+    ]
+    filtered = filter_official_accounts(raw, ["넥스트레벨", "타이어엔샵"])
+    assert {a.writer_nickname for a in filtered} == {"넥스트레벨", "타이어엔샵"}
+    assert len(filtered) == 2
+
+
+def test_filter_official_accounts_empty_whitelist_passes_through():
+    # 금호처럼 계정 필터링이 필요 없는 브랜드는 화이트리스트가 비어 있고,
+    # 이 경우 아무것도 걸러지지 않아야 한다.
+    raw = [_raw("아무개1"), _raw("아무개2")]
+    assert filter_official_accounts(raw, []) == raw
 
 
 def test_parse_cafe_menu_ids_new_style_url():

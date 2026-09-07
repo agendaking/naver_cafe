@@ -25,8 +25,10 @@ KUMHO_SHORT_LABEL = {
     "대한민국 대표 금호타이어": "금호타이어",
 }
 
-# 형님 확인 (2026-09-07): 한국타이어 공식 계정명.
-HANKOOK_OFFICIAL_ACCOUNT = "한국타이어T매니저"
+# 형님 확인 (2026-09-07): 공식 계정 목록. 같은 이름 패턴(예: 한국타이어파주매니저)의
+# 다른 계정이 실제로 존재하지만 공식으로 인정하지 않기로 확정했다 (T-03).
+HANKOOK_OFFICIAL_ACCOUNTS = ["한국타이어T매니저"]
+NEXEN_OFFICIAL_ACCOUNTS = ["넥스트레벨", "타이어엔샵"]
 
 
 def _read_roster_rows(ws, *, cols, start_row=4):
@@ -141,17 +143,17 @@ def main():
         "brands": {
             "kumho": {
                 "label": "금호타이어",
-                "official_account": None,
+                "official_accounts": [],
                 "groups": kumho_groups,
             },
             "hankook": {
                 "label": "한국타이어",
-                "official_account": HANKOOK_OFFICIAL_ACCOUNT,
+                "official_accounts": HANKOOK_OFFICIAL_ACCOUNTS,
                 "groups": hankook_groups,
             },
             "nexen": {
                 "label": "넥센타이어",
-                "official_account": None,
+                "official_accounts": NEXEN_OFFICIAL_ACCOUNTS,
                 "groups": nexen_groups,
             },
         }
