@@ -316,42 +316,6 @@ brands:
         name: 영운모
         url: https://cafe.naver.com/f-e/cafes/19984812/menus/268?viewType=L
         member_count: 131951
-      - car_model: 그랜저IG
-        name: 그랜저 멤버스
-        url: cafe.naver.com/bestcm
-        member_count: 531434
-      - car_model: 그랜저GN7
-        name: 그랜저 리더스 클럽
-        url: cafe.naver.com/suddenattackskincafe
-        member_count: 450347
-      - car_model: 볼보
-        name: 클럽 볼보
-        url: HTTPS://cafe.naver.com/cksdn8443
-        member_count: 202915
-      - car_model: K5 DL3
-        name: K5 멤버스
-        url: cafe.naver.com/pantagi
-        member_count: 658357
-      - car_model: 쏘나타DN8
-        name: 쏘나타 오너스클럽
-        url: cafe.naver.com/hyun6587
-        member_count: 529608
-      - car_model: QM6
-        name: QM6 매니아
-        url: cafe.naver.com/usemaprank
-        member_count: 338051
-      - car_model: 아반떼
-        name: 아반떼AD 공식 동호회
-        url: cafe.naver.com/cafegba
-        member_count: 329993
-      - car_model: LF쏘나타
-        name: LF쏘나타러브
-        url: cafe.naver.com/xxyxx
-        member_count: 276755
-      - car_model: 올뉴K7
-        name: K7 오너스클럽
-        url: cafe.naver.com/stars0
-        member_count: 273025
     - board_group: SUV전용타이어 DYNAPRO
       board_group_short: null
       cafes:
@@ -367,38 +331,6 @@ brands:
         name: 그랑콜레오레스 오너스클럽
         url: https://cafe.naver.com/f-e/cafes/10007862/menus/2491?viewType=L
         member_count: 228614
-      - car_model: 카니발KA4
-        name: 카니발 포에버
-        url: https://cafe.naver.com/ArticleList.nhn?search.clubid=10124067&search.menuid=3278&search.boardtype=L
-        member_count: 655691
-      - car_model: 싼타페TM
-        name: 클럽 싼타페
-        url: cafe.naver.com/iroid
-        member_count: 785605
-      - car_model: 제네시스GV70
-        name: GV70 포럼
-        url: cafe.naver.com/ohwow
-        member_count: 191123
-      - car_model: 올뉴쏘렌토
-        name: 쏘랜토 패밀리
-        url: cafe.naver.com/wnd1tkghl
-        member_count: 378347
-      - car_model: 팰리세이드
-        name: 클럽 팰리세이드
-        url: cafe.naver.com/naworl
-        member_count: 532576
-      - car_model: 올뉴카니발
-        name: 카니발 패밀리
-        url: cafe.naver.com/haruhi
-        member_count: 357543
-      - car_model: 싼타페DM
-        name: 클럽 DM
-        url: cafe.naver.com/santafedmclub
-        member_count: 280204
-      - car_model: 올뉴투싼
-        name: 투싼 매니아
-        url: cafe.naver.com/shiftouch
-        member_count: 263587
     - board_group: 전기차전용 타이어 iON
       board_group_short: null
       cafes:
@@ -414,14 +346,6 @@ brands:
         name: 전기차동호회
         url: https://cafe.naver.com/f-e/cafes/21771803/menus/965?viewType=L
         member_count: 1248578
-      - car_model: 기아EV통합
-        name: EV 오너스 클럽
-        url: cafe.naver.com/carmessenger
-        member_count: 211948
-      - car_model: EV9
-        name: EV9 오너스클럽
-        url: https://cafe.naver.com/terror4u
-        member_count: 147264
   nexen:
     label: 넥센타이어
     official_account: null
