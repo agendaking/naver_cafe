@@ -20,10 +20,11 @@ from naver_cafe_crawler.naver_api import parse_cafe_menu_ids
 from datetime import datetime
 
 
-def _article(timestamp_ms, subject, read=0, like=0, comment=0, nickname="타이어프로", level="협력업체"):
+def _article(article_id, timestamp_ms, subject, read=0, like=0, comment=0, nickname="타이어프로", level="협력업체"):
     return {
         "type": "ARTICLE",
         "item": {
+            "articleId": article_id,
             "subject": subject,
             "writeDateTimestamp": timestamp_ms,
             "readCount": read,
@@ -38,21 +39,21 @@ def _article(timestamp_ms, subject, read=0, like=0, comment=0, nickname="타이�
 REAL_PAGE_1 = {
     "result": {
         "articleList": [
-            _article(1788747024830, "[이벤트] O/X 퀴즈! 추석 귀성길 준비, 정답은?", 40, 1, 0),
-            _article(1787882288503, "CRUGEN GT Pro의 모든 것! 핵심 콘텐츠 다시 보기", 33, 0, 0),
-            _article(1787713190983, "휴가 끝난 SUV, 타이어는 확인했나요?", 23, 0, 0),
-            _article(1787278677557, "[이벤트] 여름의 끝자락, 시원한 혜택은 계속! KUMHO:T SUMMER PROMOTION", 125, 1, 1),
-            _article(1787106986230, "포트홀 사고, 당황하지 말고 이렇게 대처하세요!", 40, 0, 1),
-            _article(1787019882733, "[이벤트] 마제스티 No.1 프로모션", 220, 1, 1),
-            _article(1786673637613, "친환경 타이어의 미래는? 금호타이어 ‘2026 지속가능경영보고서’ 발간", 7, 0, 1),
-            _article(1786501304010, "이번 주말 어디 갈까? 8월, 계곡 드라이브 명소 TOP 3!", 103, 0, 3),
-            _article(1785718777483, "[이벤트] 휴가철 함께 떠나고 싶은 금호타이어는?", 243, 1, 29),
-            _article(1785464190110, "놓치면 아쉬운 2026년 2분기, 가장 사랑받은 금호타이어 콘텐츠 BEST 3", 28, 1, 0),
-            _article(1785290645050, "SUV 빗길 사고, 차이는 타이어에 있습니다", 28, 1, 1),
-            _article(1785216773333, "2026 하계 고속도로 타이어 안전점검 캠페인", 14, 0, 0),
-            _article(1784686434180, "카니발 포에버 회원 전용 이벤트, 타이어프로가 드리는 특별한 혜택!!", 558, 3, 6),
-            _article(1784513787873, "[이벤트] 금호타이어와 함께하는 TIRE PRO CUP 스크린 골프대회!", 45, 1, 0),
-            _article(1783908005887, "[이벤트] 여름 무더위를 이겨낼 사계절 타이어는?", 246, 1, 6),
+            _article(900001, 1788747024830, "[이벤트] O/X 퀴즈! 추석 귀성길 준비, 정답은?", 40, 1, 0),
+            _article(900002, 1787882288503, "CRUGEN GT Pro의 모든 것! 핵심 콘텐츠 다시 보기", 33, 0, 0),
+            _article(900003, 1787713190983, "휴가 끝난 SUV, 타이어는 확인했나요?", 23, 0, 0),
+            _article(900004, 1787278677557, "[이벤트] 여름의 끝자락, 시원한 혜택은 계속! KUMHO:T SUMMER PROMOTION", 125, 1, 1),
+            _article(900005, 1787106986230, "포트홀 사고, 당황하지 말고 이렇게 대처하세요!", 40, 0, 1),
+            _article(900006, 1787019882733, "[이벤트] 마제스티 No.1 프로모션", 220, 1, 1),
+            _article(900007, 1786673637613, "친환경 타이어의 미래는? 금호타이어 ‘2026 지속가능경영보고서’ 발간", 7, 0, 1),
+            _article(900008, 1786501304010, "이번 주말 어디 갈까? 8월, 계곡 드라이브 명소 TOP 3!", 103, 0, 3),
+            _article(900009, 1785718777483, "[이벤트] 휴가철 함께 떠나고 싶은 금호타이어는?", 243, 1, 29),
+            _article(900010, 1785464190110, "놓치면 아쉬운 2026년 2분기, 가장 사랑받은 금호타이어 콘텐츠 BEST 3", 28, 1, 0),
+            _article(900011, 1785290645050, "SUV 빗길 사고, 차이는 타이어에 있습니다", 28, 1, 1),
+            _article(900012, 1785216773333, "2026 하계 고속도로 타이어 안전점검 캠페인", 14, 0, 0),
+            _article(900013, 1784686434180, "카니발 포에버 회원 전용 이벤트, 타이어프로가 드리는 특별한 혜택!!", 558, 3, 6),
+            _article(900014, 1784513787873, "[이벤트] 금호타이어와 함께하는 TIRE PRO CUP 스크린 골프대회!", 45, 1, 0),
+            _article(900015, 1783908005887, "[이벤트] 여름 무더위를 이겨낼 사계절 타이어는?", 246, 1, 6),
         ],
         "pageInfo": {"lastNavigationPageNumber": 9, "visibleNextButton": False},
     }
@@ -114,13 +115,13 @@ def test_fetch_cafe_articles_for_month_builds_article_records():
 def test_pagination_stops_when_page_entirely_before_month():
     page1 = {
         "result": {
-            "articleList": [_article(1787361430000, "8월 글", 1, 0, 0)],  # 2026-08-18
+            "articleList": [_article(900016, 1787361430000, "8월 글", 1, 0, 0)],  # 2026-08-18
             "pageInfo": {"lastNavigationPageNumber": 2, "visibleNextButton": True},
         }
     }
     page2 = {
         "result": {
-            "articleList": [_article(1783998000000, "7월 글", 1, 0, 0)],  # 2026-07-13
+            "articleList": [_article(900017, 1783998000000, "7월 글", 1, 0, 0)],  # 2026-07-13
             "pageInfo": {"lastNavigationPageNumber": 2, "visibleNextButton": False},
         }
     }
@@ -137,6 +138,7 @@ def test_pagination_stops_when_page_entirely_before_month():
 
 def _raw(nickname: str, subject: str = "글") -> RawArticle:
     return RawArticle(
+        article_id=1,
         write_datetime=datetime(2026, 8, 1),
         subject=subject,
         read_count=0,

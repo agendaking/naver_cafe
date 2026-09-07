@@ -11,15 +11,23 @@ from datetime import datetime
 from typing import Callable, Iterable
 
 from .articles import ArticleRecord
-from .naver_api import fetch_article_page, parse_cafe_menu_ids
+from .comments import CommentRecord
+from .naver_api import (
+    CommentsRestrictedError,
+    fetch_article_page,
+    fetch_comment_page,
+    parse_cafe_menu_ids,
+)
 
 FetchPageFn = Callable[..., dict]
+FetchCommentPageFn = Callable[..., dict]
 
 
 @dataclass(frozen=True)
 class RawArticle:
     """API가 주는 원본 필드 중 크롤러가 쓰는 것만 뽑은 중간 표현."""
 
+    article_id: int
     write_datetime: datetime
     subject: str
     read_count: int
@@ -76,6 +84,7 @@ def fetch_raw_articles_for_month(
             writer = item.get("writerInfo", {})
             results.append(
                 RawArticle(
+                    article_id=item["articleId"],
                     write_datetime=dt,
                     subject=item["subject"],
                     read_count=item["readCount"],
@@ -142,3 +151,99 @@ def fetch_cafe_articles_for_month(
     cafe_id, menu_id = parse_cafe_menu_ids(cafe_url)
     raw = fetch_raw_articles_for_month(cafe_id, menu_id, year, month, fetch_page=fetch_page)
     return raw_to_article_records(raw, cafe_name=cafe_name, group=group)
+
+
+def fetch_comments_for_article(
+    cafe_id: str,
+    article_id: int,
+    *,
+    gubun: str,
+    cafe_name: str,
+    article_title: str,
+    fetch_comment_page: FetchCommentPageFn = fetch_comment_page,
+    max_pages: int = 20,
+) -> list[CommentRecord]:
+    """게시글 하나의 댓글 전체를 페이지네이션 끝까지 모은다."""
+    results: list[CommentRecord] = []
+    page = 1
+    while page <= max_pages:
+        data = fetch_comment_page(cafe_id, article_id, page)
+        result = data.get("result", {})
+        items = result.get("comments", {}).get("items", [])
+        for item in items:
+            if item.get("isDeleted"):
+                continue
+            dt = datetime.fromtimestamp(item["updateDate"] / 1000)
+            results.append(
+                CommentRecord(
+                    gubun=gubun,
+                    cafe=cafe_name,
+                    article_title=article_title,
+                    write_date=dt.strftime("%Y.%m.%d"),
+                    writer=item.get("writer", {}).get("nick", ""),
+                    content=item.get("content", ""),
+                )
+            )
+        if not result.get("hasNext"):
+            break
+        page += 1
+    return results
+
+
+def fetch_cafe_articles_and_comments_for_month(
+    cafe_url: str,
+    year: int,
+    month: int,
+    *,
+    gubun: str,
+    cafe_name: str,
+    group: str,
+    official_accounts: Iterable[str] | None = None,
+    fetch_page: FetchPageFn = fetch_article_page,
+    fetch_comment_page: FetchCommentPageFn = fetch_comment_page,
+) -> tuple[list[ArticleRecord], list[CommentRecord], int]:
+    """게시글과 그 댓글을 한 번의 크롤링에서 함께 수집한다 (PRD 3.1 필수 요건).
+
+    게시글 목록을 한 번만 가져와서(raw) 그 결과로 게시글 시트와 댓글 시트를
+    둘 다 만들기 때문에, 두 시트가 서로 다른 시점의 스냅샷이 되는 게
+    구조적으로 불가능하다.
+
+    반환값의 세 번째 원소는 "회원 전용이라 댓글 원문을 못 가져온" 게시글들의
+    댓글 수 합계다 (형님 확인, 2026-09-07: 이런 카페는 댓글을 빈칸으로 두고
+    계속 진행하기로 함). 호출부에서 게시글 시트 댓글 합계와 댓글 시트 행수를
+    비교할 때 이 값만큼은 예외로 빼고 비교해야 한다.
+    """
+    cafe_id, menu_id = parse_cafe_menu_ids(cafe_url)
+    raw = fetch_raw_articles_for_month(cafe_id, menu_id, year, month, fetch_page=fetch_page)
+    if official_accounts:
+        raw = filter_official_accounts(raw, official_accounts)
+
+    articles = raw_to_article_records(raw, cafe_name=cafe_name, group=group)
+
+    all_comments: list[CommentRecord] = []
+    restricted_comment_count = 0
+    for a in raw:
+        if a.comment_count == 0:
+            continue
+        try:
+            fetched = fetch_comments_for_article(
+                cafe_id,
+                a.article_id,
+                gubun=gubun,
+                cafe_name=cafe_name,
+                article_title=a.subject,
+                fetch_comment_page=fetch_comment_page,
+            )
+        except CommentsRestrictedError as e:
+            print(f"  [회원전용] articleId={a.article_id}: {e.reason}")
+            restricted_comment_count += a.comment_count
+            continue
+        except Exception as e:  # noqa: BLE001
+            # 게시글 하나의 댓글 수집 실패로 그 카페의 게시글 데이터까지
+            # 통째로 버려지면 안 된다 — 이 게시글만 건너뛴다. 알려진
+            # 회원전용 제한이 아닌 예상 밖의 실패이므로 restricted count에는
+            # 넣지 않는다 (호출부의 T-04 검증이 이 불일치를 그대로 잡아냄).
+            print(f"  [SKIP 댓글] articleId={a.article_id} 실패: {e}")
+            continue
+        all_comments.extend(fetched)
+    return articles, all_comments, restricted_comment_count
