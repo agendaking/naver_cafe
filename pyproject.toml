@@ -4,12 +4,11 @@ version = "0.1.0"
 description = "금호타이어 네이버 자동차 동호회 카페 통계 크롤러"
 requires-python = ">=3.11"
 dependencies = [
-    "playwright>=1.47",
+    "requests>=2.31",
     "beautifulsoup4>=4.12",
     "lxml>=5.0",
     "openpyxl>=3.1",
     "pyyaml>=6.0",
-    "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
