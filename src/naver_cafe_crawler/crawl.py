@@ -190,6 +190,51 @@ def fetch_comments_for_article(
     return results
 
 
+@dataclass(frozen=True)
+class RawComment:
+    """댓글 원문을 시:분까지 보존한 중간 표현.
+
+    comments.py의 CommentRecord는 PRD 3.1 댓글 시트용으로 write_date를
+    날짜까지만 남기지만(예: "2026.09.07"), 이벤트 응모시간 기록에는 시:분이
+    필요해서 별도로 둔다.
+    """
+
+    writer: str
+    content: str
+    write_datetime: datetime
+
+
+def fetch_raw_comments_for_article(
+    cafe_id: str,
+    article_id: int,
+    *,
+    fetch_comment_page: FetchCommentPageFn = fetch_comment_page,
+    max_pages: int = 20,
+) -> list[RawComment]:
+    """게시글 하나의 댓글 전체를 시:분 단위까지 보존한 채로 모은다."""
+    results: list[RawComment] = []
+    page = 1
+    while page <= max_pages:
+        data = fetch_comment_page(cafe_id, article_id, page)
+        result = data.get("result", {})
+        items = result.get("comments", {}).get("items", [])
+        for item in items:
+            if item.get("isDeleted"):
+                continue
+            dt = datetime.fromtimestamp(item["updateDate"] / 1000)
+            results.append(
+                RawComment(
+                    writer=item.get("writer", {}).get("nick", ""),
+                    content=item.get("content", ""),
+                    write_datetime=dt,
+                )
+            )
+        if not result.get("hasNext"):
+            break
+        page += 1
+    return results
+
+
 def fetch_cafe_articles_and_comments_for_month(
     cafe_url: str,
     year: int,
