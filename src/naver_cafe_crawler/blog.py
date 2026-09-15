@@ -9,7 +9,10 @@
   RSS: https://rss.blog.naver.com/{blogId}.xml
   좋아요: https://apis.naver.com/blogserver/like/v1/search/contents
           ?q=BLOG[{blogId}_{logNo}]&pool=blogid&cssIds=MULTI_PC,BLOG_PC
-  댓글: PostView.naver 페이지 HTML에 <em id="floating_bottom_commentCount"> 로 임베드
+  댓글 개수: PostView.naver 페이지 HTML에 <em id="floating_bottom_commentCount"> 로 임베드
+  댓글 원문: apis.naver.com/commentBox/cbox/web_naver_list_json.json (아래 참고, 2026-09-16
+             형님이 브라우저 Network 탭에서 직접 캡처해준 요청으로 확인 — 사내 정책상
+             blog.naver.com이 브라우저 도구로 막혀 있어 이 부분만 직접 확인 불가했음)
 - 티스토리(blog.kumhotire.co.kr, 커스텀 도메인):
   RSS: https://{domain}/rss
   좋아요: https://{domain}/reaction?entryId={postId} -> reactionCounter.like
@@ -21,6 +24,7 @@
 
 from __future__ import annotations
 
+import html
 import re
 from dataclasses import dataclass
 from datetime import datetime
@@ -109,6 +113,34 @@ def find_rss_entry(
     )
 
 
+_NAVER_BLOG_URL_RE = re.compile(r"blog\.naver\.com/([^/?]+)/(\d+)")
+
+
+def parse_naver_blog_url(url: str) -> tuple[str, str]:
+    """게시글 URL에서 (blogId, logNo)를 뽑는다. 예: blog.naver.com/kumhotire_official/224403416495"""
+    m = _NAVER_BLOG_URL_RE.search(url)
+    if not m:
+        raise ValueError(f"네이버 블로그 URL에서 blogId/logNo를 못 찾음: {url}")
+    return m.group(1), m.group(2)
+
+
+@dataclass(frozen=True)
+class NaverBlogPostStats:
+    likes: int
+    comment_count: int
+
+
+def fetch_naver_blog_post_stats(
+    blog_id: str, log_no: str, *, session: requests.Session | None = None
+) -> NaverBlogPostStats:
+    """URL이 이미 확정된 게시글의 좋아요/댓글수만 바로 가져온다 (RSS 제목/날짜 검색 불필요)."""
+    sess = session or requests.Session()
+    return NaverBlogPostStats(
+        likes=_fetch_naver_blog_likes(blog_id, log_no, session=sess),
+        comment_count=_fetch_naver_blog_comments(blog_id, log_no, session=sess),
+    )
+
+
 def fetch_naver_blog_stats(
     blog_id: str,
     *,
@@ -177,6 +209,106 @@ def _fetch_naver_blog_comments(blog_id: str, log_no: str, *, session: requests.S
     if not m:
         raise BlogFetchError(f"네이버 블로그 댓글수를 페이지에서 못 찾음 ({blog_id}/{log_no})")
     return int(m.group(1).replace(",", ""))
+
+
+@dataclass(frozen=True)
+class BlogComment:
+    writer: str
+    content: str
+    submitted_at: str  # "2026.09.13 22:58" (KST, regTime 그대로)
+
+
+_BLOG_NO_RE = re.compile(r"var\s+blogNo\s*=\s*'(\d+)'")
+_BR_RE = re.compile(r"<br\s*/?>", re.IGNORECASE)
+_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _clean_comment_html(raw: str) -> str:
+    """댓글 contents는 줄바꿈이 <br>로 온다 — 개행으로 되돌리고 나머지 태그/엔티티 정리."""
+    text = _BR_RE.sub("\n", raw or "")
+    text = _TAG_RE.sub("", text)
+    return html.unescape(text).strip()
+
+
+def _fetch_naver_blog_no(blog_id: str, log_no: str, *, session: requests.Session) -> str:
+    resp = session.get(
+        "https://blog.naver.com/PostView.naver",
+        params={"blogId": blog_id, "logNo": log_no},
+        headers={"User-Agent": USER_AGENT},
+        timeout=10,
+    )
+    resp.raise_for_status()
+    m = _BLOG_NO_RE.search(resp.text)
+    if not m:
+        raise BlogFetchError(f"네이버 블로그 blogNo를 페이지에서 못 찾음 ({blog_id}/{log_no})")
+    return m.group(1)
+
+
+def fetch_naver_blog_comments(
+    blog_id: str, log_no: str, *, session: requests.Session | None = None
+) -> list[BlogComment]:
+    """게시글의 댓글 원문을 전부 가져온다 (대댓글 포함, commentList가 평면 목록으로 줌).
+
+    objectId 형식 `{blogNo}_201_{logNo}`은 페이지 HTML의 댓글 컨테이너 id
+    (`naverComment_201_{logNo}`)와 `var blogNo = '...'`에서 확인된 패턴이다.
+    "201"은 블로그 댓글의 고정 카테고리 코드로 보인다(게시글마다 다르지 않음).
+    """
+    sess = session or requests.Session()
+    blog_no = _fetch_naver_blog_no(blog_id, log_no, session=sess)
+    object_id = f"{blog_no}_201_{log_no}"
+    base_params = {
+        "ticket": "blog",
+        "templateId": "default",
+        "pool": "blogid",
+        "_cv": "",
+        "lang": "ko",
+        "pageType": "default",
+        "country": "",
+        "objectId": object_id,
+        "categoryId": "",
+        "pageSize": "50",
+        "indexSize": "10",
+        "groupId": blog_no,
+        "listType": "OBJECT",
+        "followSize": "5",
+        "userType": "MANAGER",
+        "useAltSort": "true",
+        "replyPageSize": "10",
+        "showReply": "true",
+    }
+    referer = f"https://blog.naver.com/{blog_id}/{log_no}"
+
+    comments: list[BlogComment] = []
+    page = 1
+    total_pages = 1
+    while page <= total_pages:
+        resp = sess.get(
+            "https://apis.naver.com/commentBox/cbox/web_naver_list_json.json",
+            params={**base_params, "page": str(page)},
+            headers={"User-Agent": USER_AGENT, "Referer": referer},
+            timeout=10,
+        )
+        resp.raise_for_status()
+        try:
+            result = resp.json()["result"]
+            items = result["commentList"]
+            total_pages = result["pageModel"]["totalPages"]
+        except (ValueError, KeyError) as e:
+            raise BlogFetchError(
+                f"네이버 블로그 댓글 목록 파싱 실패 ({blog_id}/{log_no}, page={page}): {e}"
+            ) from e
+        for it in items:
+            dt = datetime.fromisoformat(it["regTime"])
+            comments.append(
+                BlogComment(
+                    writer=it.get("userName", ""),
+                    content=_clean_comment_html(it.get("contents", "")),
+                    submitted_at=dt.strftime("%Y.%m.%d %H:%M"),
+                )
+            )
+        page += 1
+
+    return comments
 
 
 def fetch_tistory_stats(

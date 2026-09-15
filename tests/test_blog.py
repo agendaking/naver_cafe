@@ -13,9 +13,12 @@ import pytest
 from naver_cafe_crawler.blog import (
     BlogFetchError,
     RssEntry,
+    fetch_naver_blog_comments,
+    fetch_naver_blog_post_stats,
     fetch_naver_blog_stats,
     fetch_tistory_stats,
     find_rss_entry,
+    parse_naver_blog_url,
 )
 
 KST = timezone(timedelta(hours=9))
@@ -165,3 +168,132 @@ def test_fetch_tistory_stats_malformed_comment_json_raises_blogfetcherror():
     })
     with pytest.raises(BlogFetchError, match="댓글수 파싱 실패"):
         fetch_tistory_stats("blog.kumhotire.co.kr", title="휴가철 함께 떠나고 싶은 금호타이어는?", session=session)
+
+
+# --- 네이버 블로그 댓글 원문 (2026-09-16, 형님이 브라우저에서 직접 캡처해준
+# apis.naver.com/commentBox/cbox/web_naver_list_json.json 요청 기반) ---
+
+
+class QueueFakeSession:
+    """URL별로 호출 순서대로 소비되는 응답 큐 — page 파라미터 페이지네이션 검증용."""
+
+    def __init__(self, queues: dict[str, list[FakeResponse]]):
+        self.queues = {k: list(v) for k, v in queues.items()}
+        self.calls: list[tuple[str, dict | None]] = []
+
+    def get(self, url, params=None, headers=None, timeout=None):
+        self.calls.append((url, params))
+        queue = self.queues.get(url)
+        if not queue:
+            raise AssertionError(f"unexpected/exhausted URL: {url} params={params}")
+        return queue.pop(0)
+
+
+POSTVIEW_URL = "https://blog.naver.com/PostView.naver"
+COMMENT_LIST_URL = "https://apis.naver.com/commentBox/cbox/web_naver_list_json.json"
+POSTVIEW_HTML_WITH_BLOGNO = "<script>var blogNo = '60122265';</script>"
+
+
+def _naver_comment_item(comment_no, user_name, contents, reg_time):
+    return {"commentNo": comment_no, "userName": user_name, "contents": contents, "regTime": reg_time}
+
+
+def test_fetch_naver_blog_comments_single_page():
+    session = QueueFakeSession({
+        POSTVIEW_URL: [FakeResponse(text=POSTVIEW_HTML_WITH_BLOGNO)],
+        COMMENT_LIST_URL: [FakeResponse(json_data={"result": {
+            "commentList": [
+                _naver_comment_item("1", "심철용", "정답 : O<br><br>안전운전 하세요", "2026-09-07T12:45:00+0900"),
+            ],
+            "pageModel": {"totalPages": 1},
+        }})],
+    })
+
+    comments = fetch_naver_blog_comments("kumhotire_official", "224403416495", session=session)
+
+    assert len(comments) == 1
+    assert comments[0].writer == "심철용"
+    assert comments[0].content == "정답 : O\n\n안전운전 하세요"
+    assert comments[0].submitted_at == "2026.09.07 12:45"
+    # objectId가 blogNo_201_logNo 형식으로 조립됐는지 확인
+    _, params = session.calls[1]
+    assert params["objectId"] == "60122265_201_224403416495"
+    assert params["page"] == "1"
+
+
+def test_fetch_naver_blog_comments_paginates_across_pages():
+    session = QueueFakeSession({
+        POSTVIEW_URL: [FakeResponse(text=POSTVIEW_HTML_WITH_BLOGNO)],
+        COMMENT_LIST_URL: [
+            FakeResponse(json_data={"result": {
+                "commentList": [_naver_comment_item(str(i), f"user{i}", "O", "2026-09-07T10:00:00+0900") for i in range(50)],
+                "pageModel": {"totalPages": 2},
+            }}),
+            FakeResponse(json_data={"result": {
+                "commentList": [_naver_comment_item(str(i), f"user{i}", "O", "2026-09-07T10:00:00+0900") for i in range(50, 89)],
+                "pageModel": {"totalPages": 2},
+            }}),
+        ],
+    })
+
+    comments = fetch_naver_blog_comments("kumhotire_official", "224403416495", session=session)
+
+    assert len(comments) == 89
+    comment_list_calls = [p for u, p in session.calls if u == COMMENT_LIST_URL]
+    assert [c["page"] for c in comment_list_calls] == ["1", "2"]
+
+
+def test_fetch_naver_blog_comments_strips_mention_tags_and_unescapes_entities():
+    session = QueueFakeSession({
+        POSTVIEW_URL: [FakeResponse(text=POSTVIEW_HTML_WITH_BLOGNO)],
+        COMMENT_LIST_URL: [FakeResponse(json_data={"result": {
+            "commentList": [_naver_comment_item(
+                "1", "옹이",
+                "고마워&lt;3<br><a href='#'>@ykszym</a> 축하해",
+                "2026-09-07T21:16:00+0900",
+            )],
+            "pageModel": {"totalPages": 1},
+        }})],
+    })
+    comments = fetch_naver_blog_comments("kumhotire_official", "224403416495", session=session)
+    assert comments[0].content == "고마워<3\n@ykszym 축하해"
+
+
+def test_fetch_naver_blog_comments_blogno_not_found_raises():
+    session = QueueFakeSession({POSTVIEW_URL: [FakeResponse(text="<html>no blogno here</html>")]})
+    with pytest.raises(BlogFetchError, match="blogNo를 페이지에서 못 찾음"):
+        fetch_naver_blog_comments("kumhotire_official", "224403416495", session=session)
+
+
+def test_parse_naver_blog_url():
+    blog_id, log_no = parse_naver_blog_url("https://blog.naver.com/kumhotire_official/224403416495")
+    assert blog_id == "kumhotire_official"
+    assert log_no == "224403416495"
+
+
+def test_parse_naver_blog_url_invalid_raises():
+    with pytest.raises(ValueError, match="blogId/logNo"):
+        parse_naver_blog_url("https://blog.naver.com/")
+
+
+def test_fetch_naver_blog_post_stats_by_known_url_skips_rss_search():
+    session = FakeSession({
+        "https://apis.naver.com/blogserver/like/v1/search/contents": FakeResponse(
+            json_data={"contents": [{"reactions": [{"count": 84}]}]}
+        ),
+        "https://blog.naver.com/PostView.naver": FakeResponse(
+            text='<em id="floating_bottom_commentCount">139</em>'
+        ),
+    })
+    stats = fetch_naver_blog_post_stats("kumhotire_official", "224403416495", session=session)
+    assert stats.likes == 84
+    assert stats.comment_count == 139
+
+
+def test_fetch_naver_blog_comments_malformed_list_raises():
+    session = QueueFakeSession({
+        POSTVIEW_URL: [FakeResponse(text=POSTVIEW_HTML_WITH_BLOGNO)],
+        COMMENT_LIST_URL: [FakeResponse(json_data={"oops": True})],
+    })
+    with pytest.raises(BlogFetchError, match="댓글 목록 파싱 실패"):
+        fetch_naver_blog_comments("kumhotire_official", "224403416495", session=session)
