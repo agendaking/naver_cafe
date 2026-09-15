@@ -1,8 +1,27 @@
 """형님이 준비한 "{N월} 이벤트 현황_MMDD.xlsx" 템플릿을 그 자리에서 채운다.
 
-첫 시트(기본값 "금호")의 각 행에 있는 카페 게시판 URL에서 지정 날짜(연/월/일)에
-올라온 게시글을 찾아 조회수/좋아요/댓글수를 같은 행에 써넣고, 그 게시글들의
-댓글(=응모자)을 전부 모아 둘째 시트(기본값 "응모자")에 이어서 쓴다.
+첫 시트(기본값 "금호")의 각 행에 있는 게시판/게시물 URL에서 조회수/좋아요/댓글수를
+같은 행에 써넣고, 그 게시글들의 댓글(=응모자)을 전부 모아 둘째 시트(기본값
+"응모자")에 이어서 쓴다. URL 종류별로 다르게 처리한다:
+
+- `cafe.naver.com` — 지정 날짜(연/월/일)에 그 게시판에 올라온 게시글을 찾는다
+  (게시판당 한 달에 이벤트 게시글이 1건이라 날짜만으로 특정 가능).
+- `pf.kakao.com` — 이미 URL 자체가 특정 게시물(소식)을 가리키므로 날짜 검색 없이
+  바로 그 게시물의 좋아요/댓글수 + 댓글 원문을 가져온다. 조회수는 카카오톡 채널이
+  게시물 단위로 공개하지 않는 값이라(화면에도 없음) 항상 비워두고 비고에 사유를
+  남긴다 (2026-09-16 확인, src/naver_cafe_crawler/kakao_channel.py 참고).
+- 그 외(네이버블로그/티스토리 등) — 현재 이 스크립트가 다루지 않는다. 좋아요/댓글
+  "개수"는 blog.py의 fetch_naver_blog_stats/fetch_tistory_stats로 수집 가능하지만,
+  댓글 "본문" 목록을 주는 공개 API를 아직 찾지 못했다 (blog.naver.com이 사내 브라우저
+  정책상 막혀 있어 실제 네트워크 요청을 확인할 방법이 없었음, 2026-09-16). 잘못된
+  응모자 데이터를 만드는 것보다 비워두는 쪽을 택했다 — 이 행들은 계속 스킵하고
+  비고도 건드리지 않는다.
+
+응모자 시트는 이 스크립트를 실행할 때마다 row 4부터 전체를 다시 쓴다(카페 →
+카카오 순서로 이어붙임) — 기존 데이터 중간에 있는 빈 셀을 "다음 쓸 자리"로 오인해
+덮어쓰는 사고(2026-09-16 실제 발생, No.83~167 카페 응모자가 카카오 댓글로 뒤집어
+써졌던 사고)를 막기 위해 항상 처음부터 다시 쓰고 절대 기존 셀을 스캔해서 빈 곳을
+찾지 않는다.
 
 이 스크립트는 워크북의 기존 헤더 위치를 그대로 읽어서 맞춰 쓴다 (row 3 헤더,
 row 4부터 데이터) — 새로 시트를 만들지 않고 형님이 만든 템플릿 그대로 쓴다는
@@ -25,8 +44,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import openpyxl  # noqa: E402
 
 from naver_cafe_crawler.event_status_report import (  # noqa: E402
+    EventComment,
     collect_event_comments,
     find_cafe_link_result,
+)
+from naver_cafe_crawler.kakao_channel import (  # noqa: E402
+    KakaoFetchError,
+    fetch_kakao_post_comments,
+    fetch_kakao_post_meta,
+    parse_kakao_post_url,
 )
 
 LINK_HEADER_ROW = 3
@@ -64,12 +90,18 @@ def main() -> None:
     comment_ws = wb[args.comment_sheet]
 
     rows = []
+    kakao_rows = []
     for row in range(LINK_FIRST_DATA_ROW, link_ws.max_row + 1):
         url = link_ws.cell(row, LINK_COL_URL).value
         name = link_ws.cell(row, LINK_COL_NAME).value
-        if not url or "cafe.naver.com" not in str(url):
-            continue  # 블로그/티스토리/카카오톡 등 카페 게시판이 아닌 행은 스킵
-        rows.append((row, name, url))
+        if not url:
+            continue
+        url = str(url)
+        if "cafe.naver.com" in url:
+            rows.append((row, name, url))
+        elif "pf.kakao.com" in url:
+            kakao_rows.append((row, name, url))
+        # 그 외(네이버블로그/티스토리 등)는 스킵 — 모듈 docstring 참고
 
     print(f"{len(rows)}개 카페 게시판에서 {args.year}-{args.month:02d}-{args.day:02d} 게시글 검색 중...", file=sys.stderr)
 
@@ -99,6 +131,26 @@ def main() -> None:
 
     comments, restricted = collect_event_comments(found_results)
     print(f"댓글 {len(comments)}건 수집 (회원전용 제외 {restricted}건)", file=sys.stderr)
+
+    if kakao_rows:
+        print(f"\n카카오톡 채널 게시물 {len(kakao_rows)}건 수집 중...", file=sys.stderr)
+    for row, name, url in kakao_rows:
+        try:
+            profile_id, post_id = parse_kakao_post_url(url)
+            meta = fetch_kakao_post_meta(profile_id, post_id)
+            kakao_comments = fetch_kakao_post_comments(profile_id, post_id)
+        except (KakaoFetchError, ValueError) as e:
+            print(f"  {name}: [실패] {e}", file=sys.stderr)
+            link_ws.cell(row, LINK_COL_NOTE, f"크롤링 실패: {e}")
+            continue
+        print(f"  {name}: 좋아요={meta.like_count} 댓글={meta.comment_count} (수집 {len(kakao_comments)}건)", file=sys.stderr)
+        link_ws.cell(row, LINK_COL_LIKES, meta.like_count)
+        link_ws.cell(row, LINK_COL_COMMENTS, meta.comment_count)
+        link_ws.cell(row, LINK_COL_NOTE, "조회수는 카카오톡 채널이 게시물별로 공개하지 않음(공개 API/화면 모두 미노출)")
+        comments.extend(
+            EventComment(cafe_name=name, writer=c.writer, content=c.content, submitted_at=c.submitted_at)
+            for c in kakao_comments
+        )
 
     for i, c in enumerate(comments, start=1):
         r = COMMENT_FIRST_DATA_ROW + i - 1
