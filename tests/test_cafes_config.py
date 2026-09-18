@@ -4,6 +4,9 @@
 시트를 직접 세어서 얻은 값이다 (scripts/import_roster_from_xlsx.py 참고).
 - 금호: 원본에 쏘나타 오너스클럽 행이 완전히 중복 기재되어 있어(동일 URL) 1건
   제외하고 70건으로 확정 (형님 확인 완료).
+  2026-09-18: 형님이 준 cafe_list_202609.xlsx로 갱신 — 더뉴카니발/카포페 게시판이
+  GV90/GV90더클래스로 대상 차종이 바뀌었고, 기아PV5클럽(PV5)이 신규 추가돼
+  70 -> 71건.
 - 한국: 원본에 URL이 프로토콜 없는 짧은 별칭(예: cafe.naver.com/pantagi)으로
   잘못 기재된 19개 행이 있었는데, 형님이 원본 8월 카페통계.xlsx에서 직접
   정리해서 정식 URL이 있는 11개 카페만 남겼다. 그 결과를 그대로 반영.
@@ -20,14 +23,14 @@ from naver_cafe_crawler.config import load_cafes
 CONFIG_PATH = Path(__file__).resolve().parents[1] / "config" / "cafes.yaml"
 
 EXPECTED_TOTAL_COUNTS = {
-    "kumho": 70,
+    "kumho": 71,
     "hankook": 11,
     "nexen": 54,
 }
 
 EXPECTED_KUMHO_GROUP_COUNTS = {
     "CRUGEN GT Pro": 19,
-    "금호타이어": 51,
+    "금호타이어": 52,
 }
 
 
