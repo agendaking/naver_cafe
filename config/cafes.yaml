@@ -54,8 +54,8 @@ brands:
         name: 클럽 투싼
         url: https://cafe.naver.com/f-e/cafes/13035156/menus/1936?viewType=L
         member_count: 241986
-      - car_model: 더뉴카니발
-        name: 카포페
+      - car_model: GV90
+        name: GV90더클래스
         url: https://cafe.naver.com/f-e/cafes/24651578/menus/1279?viewType=L
         member_count: 209045
       - car_model: 토레스
@@ -285,6 +285,10 @@ brands:
         name: 셀토스러브
         url: https://cafe.naver.com/f-e/cafes/10095818/menus/1586?viewType=L
         member_count: 207261
+      - car_model: PV5
+        name: 기아PV5클럽
+        url: https://cafe.naver.com/f-e/cafes/13684551/menus/854?viewType=L
+        member_count: 187479
       - car_model: 화물/트럭
         name: 영운모
         url: https://cafe.naver.com/f-e/cafes/19984812/menus/274?viewType=L
