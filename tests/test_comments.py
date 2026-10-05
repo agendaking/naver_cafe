@@ -192,3 +192,13 @@ def test_fetch_comments_for_article_skips_deleted():
     )
     assert len(comments) == 1
     assert comments[0].content == "살아있음"
+
+
+def test_comment_text_marks_sticker_only_comment():
+    from naver_cafe_crawler.crawl import comment_text
+
+    assert comment_text({"content": "", "sticker": {"id": "x"}}) == "(스티커)"
+    assert comment_text({"content": "  ", "sticker": {"id": "x"}}) == "(스티커)"
+    assert comment_text({"content": "", "image": {"url": "https://x/y.jpg"}}) == "(이미지)"
+    assert comment_text({"content": "저요!", "sticker": {"id": "x"}}) == "저요!"
+    assert comment_text({"content": ""}) == ""

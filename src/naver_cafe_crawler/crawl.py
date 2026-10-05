@@ -153,6 +153,17 @@ def fetch_cafe_articles_for_month(
     return raw_to_article_records(raw, cafe_name=cafe_name, group=group)
 
 
+def comment_text(item: dict) -> str:
+    """댓글 본문. 스티커/사진만 달린 댓글은 content가 비어 오므로 빈칸 대신 표기한다."""
+    content = item.get("content", "")
+    if not content.strip():
+        if item.get("sticker"):
+            return "(스티커)"
+        if item.get("image"):
+            return "(이미지)"
+    return content
+
+
 def fetch_comments_for_article(
     cafe_id: str,
     article_id: int,
@@ -181,7 +192,7 @@ def fetch_comments_for_article(
                     article_title=article_title,
                     write_date=dt.strftime("%Y.%m.%d"),
                     writer=item.get("writer", {}).get("nick", ""),
-                    content=item.get("content", ""),
+                    content=comment_text(item),
                 )
             )
         if not result.get("hasNext"):
@@ -225,7 +236,7 @@ def fetch_raw_comments_for_article(
             results.append(
                 RawComment(
                     writer=item.get("writer", {}).get("nick", ""),
-                    content=item.get("content", ""),
+                    content=comment_text(item),
                     write_datetime=dt,
                 )
             )
